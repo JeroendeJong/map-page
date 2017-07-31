@@ -1,16 +1,18 @@
 {
-  "manifest_version": 2,
-  "name": "test-package-jeroen1",
-  "version": "0.2",
+    "manifest_version": 2,
+    "name": "test-package-jeroen1",
+    "version": "0.2",
 
-  "description": "A plain text description",
+    "description": "A plain text description",
 
-  "chrome_url_overrides": {
-    "newtab": "build/index.html"
-  },
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
 
-  "permissions": [
-    "tabs",
-    "bookmarks"
-  ]
+    "permissions": [
+        "tabs",
+        "bookmarks",
+        "topSites"
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
