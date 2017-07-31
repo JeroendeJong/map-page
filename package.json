@@ -5,14 +5,18 @@
   "main": "main.js",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "chrome": "cp package.json build/",
+    "test": "node chrome/bin.js"
   },
-  "author": "",
+  "author": "Jeroen de Jong",
   "license": "ISC",
   "dependencies": {
     "mapbox-gl": "^0.39.1",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
     "react-scripts": "1.0.10"
   }
 }

@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "test-package-jeroen1",
+  "version": "0.2",
+
+  "description": "A plain text description",
+
+  "chrome_url_overrides": {
+    "newtab": "build/index.html"
+  },
+
+  "permissions": [
+    "tabs",
+    "bookmarks"
+  ]
+}
