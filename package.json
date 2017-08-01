@@ -5,13 +5,15 @@
   "main": "main.js",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && cp chrome/manifest.json build/ && npm run create-extension",
+    "build:test": "react-scripts build && cp chrome/manifest.json build/",
+    "build:final": "react-scripts build && cp chrome/manifest.json build/ && npm run create-extension",
     "create-extension": "manifest_path=./build node chrome/create-extension.js"
   },
   "author": "Jeroen de Jong",
   "license": "ISC",
   "dependencies": {
     "mapbox-gl": "^0.39.1",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
   },

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import BookmarkView from '../Bookmarks/bookmarks-view';
+
 import './App.css';
 
 class App extends Component {
@@ -6,6 +8,8 @@ class App extends Component {
     return (
       <div className="App">
 
+
+        <BookmarkView/>
       </div>
     );
   }
