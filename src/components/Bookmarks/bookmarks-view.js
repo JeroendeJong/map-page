@@ -48,16 +48,13 @@ class BookmarkView extends Component {
 
             return (
                 <div className="bookmarks-view">
-                    <table>
+                    <table className="bookmarks-view-table">
                         <tbody>
                             <tr> {this.state.bookmarks} </tr>
                         </tbody>
                     </table>
                 </div>
-
-
             )
-
 
         }
 

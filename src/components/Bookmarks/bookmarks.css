@@ -2,13 +2,31 @@
     height: 40px;
     display: flex;
     background-color: white;
-    border-bottom: 1px solid #d6d4d6;
+    box-shadow: 0 0px 25px 0px #0e0e0e
 }
 
 .bookmarks-item {
-    height: 20px;
+    padding-left: 5px;
+}
+
+.bookmarks-view, td:hover {
+    background-color: #ebebeb;
+    border-radius: 5px;
+}
+
+.bookmark-item-favicon {
+    float: left;
 }
 
 .bookmark-item-title {
-    display: inline;
+    padding-top: 1px;
+    padding-left: 2px;
+    padding-right: 6px;
+    float: right;
 }
+
+.bookmarks-view-table {
+    padding-top: 9px;
+    margin-left: 10px;
+}
+

@@ -42,7 +42,7 @@ class BookmarkItem extends Component {
         return (
             <td>
                 <div className="bookmark-item" onClick={this.handleOnClick} >
-                    <img src={this.getIcon()} width='16px' height='16px' alt='bookmark-favicon'/>
+                    <img className="bookmark-item-favicon" src={this.getIcon()} width='16px' height='16px' alt='bookmark-favicon'/>
                     <div className="bookmark-item-title">{this.props.title}</div>
                 </div>
             </td>
