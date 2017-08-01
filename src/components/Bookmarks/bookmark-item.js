@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import folderIcon from '../../assets/default-favicon.png'
+import folderIcon from '../../assets/default-foldericon.png'
 
 class BookmarkItem extends Component {
 
@@ -26,7 +26,6 @@ class BookmarkItem extends Component {
         }
     }
 
-
     getIcon() {
         switch (this.props.type) {
             case 'Link':
@@ -42,7 +41,7 @@ class BookmarkItem extends Component {
         return (
             <td>
                 <div className="bookmark-item" onClick={this.handleOnClick} >
-                    <img className="bookmark-item-favicon" src={this.getIcon()} width='16px' height='16px' alt='bookmark-favicon'/>
+                    <img className="bookmark-item-favicon" src={this.getIcon()} width={this.props.type === 'Link' ? '16px' : '18px'} height='16px' alt='bookmark-favicon'/>
                     <div className="bookmark-item-title">{this.props.title}</div>
                 </div>
             </td>
@@ -59,4 +58,3 @@ BookmarkItem.propTypes = {
 
 
 export default BookmarkItem;
-

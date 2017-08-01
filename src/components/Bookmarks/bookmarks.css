@@ -9,9 +9,9 @@
     padding-left: 5px;
 }
 
-.bookmarks-view, td:hover {
+.bookmarks-view td:hover {
     background-color: #ebebeb;
-    border-radius: 5px;
+    border-radius: 2px;
 }
 
 .bookmark-item-favicon {
