@@ -10,10 +10,11 @@ class Config extends EventEmitter {
     }
 
     setConfig() {
-        this.getConfigFromStorage().then( config => {
+        this.getConfigFromStorage().then(config => {
             this.config = config;
             this.emit('config retrieved', config);
         }).catch( err => {
+            if (err) { console.log(err); }
             this.config = defaultConfig;
             this.emit('config retrieved', defaultConfig);
         });
@@ -24,9 +25,10 @@ class Config extends EventEmitter {
     }
 
     putConfigToStorage() {
-        return Chrome.setItemToStorage(this.config, 'mapConfig').then( config => {
+        return Chrome.setItemToStorage(this.config, 'mapConfig').then(config => {
             this.emit('config saved', this.config);
         }).catch( err => {
+            if (err) { console.log(err); }
             this.getConfigFromStorage();
             this.emit('config not saved', this.config);
         });
@@ -49,13 +51,14 @@ class Config extends EventEmitter {
         this.config.userLocation = true;
         this.putConfigToStorage();
     }
+
     disableUserLocation() {
         this.config.userLocation = false;
         this.putConfigToStorage();
     }
 }
 
-const defaultConfig =  {
+const defaultConfig = {
 
     styles: [
         'mapbox://styles/mapbox/streets-v9',

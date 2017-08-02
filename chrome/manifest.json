@@ -12,7 +12,9 @@
     "permissions": [
         "tabs",
         "bookmarks",
-        "topSites"
+        "topSites",
+        "storage",
+        "geolocation"
     ],
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

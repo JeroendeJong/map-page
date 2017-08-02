@@ -6,8 +6,8 @@ import Map from './map';
 import Config from './config';
 
 // initiate map
-const map = new Map();
 const config = new Config();
+const map = new Map(config);
 
 // initiate application
 ReactDOM.render(

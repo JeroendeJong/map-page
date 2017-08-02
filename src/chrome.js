@@ -1,4 +1,3 @@
-
 /*
 *  Local Storage Handlers
 */
@@ -16,9 +15,11 @@ function setItemToStorage(item, key) {
             reject('No Storage Object! (check permission!)');
         }
 
-        _getChromeInstance().bookmarks.sync.set({key, item}, () => {
+        _getChromeInstance().storage.sync.set({key, item}, () => {
             if (!_getLastRuntimeError) {
                 resolve('Settings Saved!');
+            } else {
+                reject(_getLastRuntimeError)
             }
         });
     });
@@ -38,9 +39,11 @@ function getItemFromStorage(key) {
             reject('No Storage Object! (check permission!)');
         }
 
-        _getChromeInstance().bookmarks.sync.get(key, items => {
+        _getChromeInstance().storage.sync.get(key, items => {
             if (!_getLastRuntimeError) {
                 resolve(items);
+            } else {
+                reject(_getLastRuntimeError)
             }
         });
     });
@@ -62,6 +65,8 @@ function getBookmarks() {
         _getChromeInstance().bookmarks.getTree( bm => {
             if (!_getLastRuntimeError) {
                 resolve(bm);
+            } else {
+                reject(_getLastRuntimeError)
             }
         });
     });
@@ -83,6 +88,8 @@ function getTopSites() {
         _getChromeInstance().topSites.get( ts => {
             if (!_getLastRuntimeError) {
                 resolve(ts);
+            } else {
+                reject(_getLastRuntimeError)
             }
         });
     });
