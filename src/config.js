@@ -1,0 +1,71 @@
+import Chrome from './chrome';
+import {EventEmitter} from 'events';
+
+class Config extends EventEmitter {
+
+    constructor() {
+        super();
+        this.config = null;
+        this.setConfig();
+    }
+
+    setConfig() {
+        this.getConfigFromStorage().then( config => {
+            this.config = config;
+            this.emit('config retrieved', config);
+        }).catch( err => {
+            this.config = defaultConfig;
+            this.emit('config retrieved', defaultConfig);
+        });
+    }
+
+    getConfigFromStorage() {
+        return Chrome.getItemFromStorage('mapConfig')
+    }
+
+    putConfigToStorage() {
+        return Chrome.setItemToStorage(this.config, 'mapConfig').then( config => {
+            this.emit('config saved', this.config);
+        }).catch( err => {
+            this.getConfigFromStorage();
+            this.emit('config not saved', this.config);
+        });
+    }
+
+    addStyle(styleUrl) {
+        this.config.styles.push(styleUrl);
+        this.putConfigToStorage();
+    }
+
+    removeStyle(styleUrl) {
+        const index = this.config.styles.indexOf(styleUrl);
+        if (index > -1) {
+            this.config.styles.splice(index, 1);
+        }
+        this.putConfigToStorage();
+    }
+
+    enableUserLocation() {
+        this.config.userLocation = true;
+        this.putConfigToStorage();
+    }
+    disableUserLocation() {
+        this.config.userLocation = false;
+        this.putConfigToStorage();
+    }
+}
+
+const defaultConfig =  {
+
+    styles: [
+        'mapbox://styles/mapbox/streets-v9',
+        'mapbox://styles/mapbox/light-v9',
+        'mapbox://styles/mapbox/dark-v9',
+        'mapbox://styles/mapbox/outdoors-v9',
+        'mapbox://styles/mapbox/satellite-streets-v9',
+        'mapbox://styles/mapbox/satellite-v9'
+    ],
+    userLocation: false
+}
+
+export default Config;

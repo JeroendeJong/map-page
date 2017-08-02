@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 
 import App from './components/App';
 import Map from './map';
+import Config from './config';
 
 // initiate map
-new Map();
+const map = new Map();
+const config = new Config();
 
 // initiate application
 ReactDOM.render(
