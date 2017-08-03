@@ -19,11 +19,13 @@ class Map extends EventEmitter {
     }
 
     CreateMap() {
-        this.getMapCentre().then(location => {
+        this.getMapLocation().then(location => {
             this._createMap(location);
+            this.location = location;
+            this.emit('location retrieved', location);
         }).catch(err => {
             console.log('Map not Loaded:  ', err);
-        })
+        });
     }
 
     _createMap(centre) {
@@ -42,7 +44,7 @@ class Map extends EventEmitter {
         return stylesArr[randIdx];
     }
 
-    getMapCentre() {
+    getMapLocation() {
         const self = this;
         return new Promise(function(resolve, reject) {
             if (self.mapConfig.config.userLocation) {
@@ -61,11 +63,8 @@ class Map extends EventEmitter {
         return new Promise(function(resolve, reject) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(pos => {
-
-                    resolve({
-                        lat: pos.coords.latitude,
-                        long: pos.coords.longitude
-                    });
+                    const loc = new Location(pos.coords.latitude, pos.coords.longitude);
+                    resolve(loc);
                 }, err => {
                     reject(err);
                 });
@@ -90,21 +89,59 @@ class Map extends EventEmitter {
                 const csv = handler.parse();
                 const randIdx = Math.floor( Math.random() * csv.length)
                 const entry = csv[randIdx];
-
-                resolve({
+                console.log(entry);
+                const loc = new Location(entry.lat, entry.lng, {
                     name: entry.city,
-                    region: `${entry.province}, ${entry.country}`,
-                    lat: entry.lat,
-                    long: entry.lng
+                    region: `${entry.province}, ${entry.country}`
                 });
+
+                resolve(loc);
             }).catch(err => {
                 reject(err);
             });
         });
     }
+}
 
-    getInterestingLocation() {}
 
+class Location {
+    name: null
+    region: null
+    lat: null
+    long: null
+
+    constructor(lat, long, opt) {
+        if (!lat || !long) {
+            throw new Error('Location needs a lat and long value!');
+        }
+
+        this.lat = lat;
+        this.long = long;
+        this.name = opt.name || null;
+        this.region = opt.region || null;
+    }
+
+    getNameAndRegion() {
+        const self = this;
+        const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.long},${this.lat}.json?types=place&access_token=${mapboxgl.accessToken}`
+
+        return new Promise(function(resolve, reject) {
+            fetch(url)
+                .then(resp => { return resp.json(); })
+                .then(json => {
+                    if (json.features.length > 0) {
+                        self.name = json.features[0].text;
+                        const placeArr = json.features[0].place_name.split(',')
+                        self.region = `${placeArr[1]}, ${placeArr[2]}`;
+                        resolve(self);
+                    } else {
+                        reject('No Geocoding available for location');
+                    }
+                }).catch(err => {
+                    reject(err);
+                })
+        });
+    }
 
 }
 

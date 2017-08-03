@@ -3,7 +3,7 @@
 */
 function setItemToStorage(item, key) {
     if (!item || !key) {
-        throw new Error('Both Item and Key must be present!')
+        throw new Error('Both Item and Key must be present!');
     }
 
     return new Promise(function(resolve, reject) {
@@ -16,10 +16,10 @@ function setItemToStorage(item, key) {
         }
 
         _getChromeInstance().storage.sync.set({key, item}, () => {
-            if (!_getLastRuntimeError) {
+            if (!_getLastRuntimeError()) {
                 resolve('Settings Saved!');
             } else {
-                reject(_getLastRuntimeError)
+                reject(_getLastRuntimeError());
             }
         });
     });
@@ -39,11 +39,15 @@ function getItemFromStorage(key) {
             reject('No Storage Object! (check permission!)');
         }
 
-        _getChromeInstance().storage.sync.get(key, items => {
-            if (!_getLastRuntimeError) {
-                resolve(items);
-            } else {
-                reject(_getLastRuntimeError)
+        _getChromeInstance().storage.sync.get(key, item => {
+            if (_getLastRuntimeError()) {
+                reject(_getLastRuntimeError());
+            }
+            else if ( Object.keys(item).length === 0 ) {
+                reject('Item not Stored');
+            }
+            else {
+                resolve(item);
             }
         });
     });
@@ -63,10 +67,10 @@ function getBookmarks() {
         }
 
         _getChromeInstance().bookmarks.getTree( bm => {
-            if (!_getLastRuntimeError) {
+            if (!_getLastRuntimeError()) {
                 resolve(bm);
             } else {
-                reject(_getLastRuntimeError)
+                reject(_getLastRuntimeError());
             }
         });
     });
@@ -86,10 +90,10 @@ function getTopSites() {
         }
 
         _getChromeInstance().topSites.get( ts => {
-            if (!_getLastRuntimeError) {
+            if (!_getLastRuntimeError()) {
                 resolve(ts);
             } else {
-                reject(_getLastRuntimeError)
+                reject(_getLastRuntimeError());
             }
         });
     });

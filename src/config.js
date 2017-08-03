@@ -11,6 +11,7 @@ class Config extends EventEmitter {
 
     setConfig() {
         this.getConfigFromStorage().then(config => {
+            console.log(config);
             this.config = config;
             this.emit('config retrieved', config);
         }).catch( err => {
@@ -21,11 +22,11 @@ class Config extends EventEmitter {
     }
 
     getConfigFromStorage() {
-        return Chrome.getItemFromStorage('mapConfig')
+        return Chrome.getItemFromStorage('mapConfig');
     }
 
     putConfigToStorage() {
-        return Chrome.setItemToStorage(this.config, 'mapConfig').then(config => {
+        Chrome.setItemToStorage(this.config, 'mapConfig').then(config => {
             this.emit('config saved', this.config);
         }).catch( err => {
             if (err) { console.log(err); }
