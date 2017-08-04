@@ -33,8 +33,7 @@ class Map extends EventEmitter {
             container: 'map',
             style: this.getRandomStyle(),
             center: [centre.long, centre.lat],
-            zoom: 13,
-            hash: true
+            zoom: 13
         });
     }
 
