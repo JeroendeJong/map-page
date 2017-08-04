@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import folderIcon from '../../assets/default-foldericon.png'
 
@@ -6,55 +6,101 @@ class BookmarkItem extends Component {
 
     constructor() {
         super();
-        this.handleOnClick = this.handleOnClick.bind(this);
+        this.state = {
+            enableDropdown: false
+        }
+
+        this.handleFolderClick = this.handleFolderClick.bind(this);
     }
 
-    handleOnClick() {
-        switch (this.props.type) {
-            case 'Link':
+    handleFolderClick(e) {
+        this.setState({
+            enableDropdown: !this.state.enableDropdown
+        })
+    }
 
-                // go to website
-                return ''
+    getFolderIcon() {
+        return folderIcon
+    }
 
-            case 'Folder':
+    getIconForUrl(url) {
+        return 'https://www.google.com/s2/favicons?domain=' + url;
+    }
 
-                // display children of said folder
-                return ''
-            default:
-                return '';
+    renderLink() {
+        return (
+            <a href={this.props.url}>
+                <div className="bookmarks-button" style={{ "borderLeft": "5px solid skyblue" }}>
+                    <img className="bookmark-item-favicon" src={this.getIconForUrl(this.props.url)} alt="Smiley face" height="16" width="16"/>
+                    <div className="bookmark-item-title">{this.props.title}</div>
+                </div>
+            </a>
+        )
+    }
 
+    renderFolder() {
+        if (this.state.enableDropdown) {
+            let elements = [];
+            const bookmarks = this.props.bmChildren
+            for (var i = 0; i < bookmarks.length; i++) {
+                const img = bookmarks[i].children ? this.getFolderIcon() : this.getIconForUrl(bookmarks[i].url)
+
+                elements.push(
+                    <li className="dropdown-element" key={i}>
+                        <a href={bookmarks[i].url}>
+                        <img className="bookmark-item-favicon" src={img} alt="Smiley face" height="16" width="16"/>
+                        <div className="bookmark-item-title">{bookmarks[i].title}</div>
+                        </a>
+                    </li>
+                )
+            }
+            return this.baseFolderStructure(elements);
+        } else {
+            return this.baseFolderStructure();
         }
     }
 
-    getIcon() {
-        switch (this.props.type) {
-            case 'Link':
-                return 'https://www.google.com/s2/favicons?domain=' + this.props.url;
-            case 'Folder':
-                return folderIcon;
-            default:
-                return folderIcon;
-        }
+    baseFolderStructure(elements) {
+        return (
+            <div className="bookmarks-button" onClick={this.handleFolderClick} style={{
+                "borderLeft": "5px solid gray"
+            }}>
+                <img className="bookmark-item-favicon" src={this.getFolderIcon()} alt="Smiley face" height="16" width="16"/>
+                <div className="bookmark-item-title">{this.props.title}</div>
+                <ul className="dropdown">
+                    {elements}
+                </ul>
+
+            </div>
+        )
     }
 
     render() {
-        return (
-            <td>
-                <div className="bookmark-item" onClick={this.handleOnClick} >
-                    <img className="bookmark-item-favicon" src={this.getIcon()} width={this.props.type === 'Link' ? '16px' : '18px'} height='16px' alt='bookmark-favicon'/>
-                    <div className="bookmark-item-title">{this.props.title}</div>
-                </div>
-            </td>
-        );
+        let extraContent = null
+        switch (this.props.type) {
+            case 'Link':
+                extraContent = this.renderLink();
+                break;
+            case 'Folder':
+                extraContent = this.renderFolder();
+                break;
+            default:
+                extraContent = this.renderLink();
+                break;
+        }
+
+        return <td>
+            {extraContent}
+        </td>
     }
 }
 
 BookmarkItem.propTypes = {
     title: PropTypes.string.isRequired,
     url: PropTypes.string,
-    type: PropTypes.oneOf(['Folder', 'Link']).isRequired,
+    type: PropTypes.oneOf(['Folder', 'Link', 'FolderLink']).isRequired,
     bmChildren: PropTypes.arrayOf(PropTypes.object)
 }
 
-
 export default BookmarkItem;
+

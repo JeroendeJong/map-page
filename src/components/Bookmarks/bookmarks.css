@@ -1,28 +1,23 @@
 .bookmarks-view {
     height: 40px;
     display: flex;
-    background-color: white;
-    box-shadow: 0 0px 25px 0px #0e0e0e
 }
 
 .bookmarks-item {
     padding-left: 5px;
 }
 
-.bookmarks-view td:hover {
-    background-color: #ebebeb;
-    border-radius: 2px;
-}
 
 .bookmark-item-favicon {
     float: left;
+    padding-top: 3px;
+    padding-left: 5px;
 }
 
 .bookmark-item-title {
     padding-top: 1px;
     padding-left: 2px;
-    padding-right: 6px;
-    float: right;
+    display: inline;
 }
 
 .bookmarks-view-table {
@@ -30,3 +25,121 @@
     margin-left: 10px;
 }
 
+/* DEMO 2 */
+
+.bookmarks-button {
+    /* Size and position */
+
+    position: relative; /* Enable absolute positionning for children and pseudo elements */
+    width: 120px;
+    padding: 7px 5px;
+
+    /* Styles */
+    font-size: 14px;
+    background: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+.bookmarks-button:after {
+    transform: rotate(90deg);
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    margin-top: -3px;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: grey transparent;
+}
+
+.dropdown-element {
+    border-width: 0px 0px 0px 5px;
+    padding-top: 2px;
+    border-style: solid;
+    border-left-color: #00ACED;
+}
+
+.bookmarks-button .dropdown {
+  /* Size & position */
+    position: absolute;
+    top: 100%;
+    left: -5px;
+    right: 0px;
+    padding-left: 0px;
+    margin-top: 0px;
+
+    /* Styles */
+    background: white;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    list-style: none;
+
+    /* Hiding */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.bookmarks-view-table a {
+    text-decoration: none;
+    color: #333;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+.bookmarks-button .dropdown li:nth-child(1) a {
+    border-left-color: #00ACED;
+}
+
+.bookmarks-button .dropdown li:nth-child(2) a {
+    border-left-color: #4183C4;
+}
+
+.bookmarks-button .dropdown li:nth-child(3) a {
+    border-left-color: #3B5998;
+}
+
+.bookmarks-button .dropdown li i {
+    margin-right: 5px;
+    color: inherit;
+    vertical-align: middle;
+}
+
+/* Hover state */
+
+.bookmarks-button .dropdown li:hover a {
+    color: grey;
+}
+
+/* Active state */
+
+.bookmarks-button:after {
+    border-width: 0 6px 6px 6px;
+}
+
+.bookmarks-button .dropdown {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* No CSS3 support */
+
+.no-opacity       .bookmarks-button .dropdown,
+.no-pointerevents .bookmarks-button .dropdown {
+    display: none;
+    opacity: 1; /* If opacity support but no pointer-events support */
+    pointer-events: auto; /* If pointer-events support but no pointer-events support */
+}
+
+.no-opacity       .bookmarks-button.active .dropdown,
+.no-pointerevents .bookmarks-button.active .dropdown {
+    display: block;
+}
