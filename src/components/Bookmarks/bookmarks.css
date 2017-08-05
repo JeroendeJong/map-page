@@ -44,10 +44,8 @@
 .bookmarks-button:after {
     transform: rotate(90deg);
     content: "";
-    width: 0;
-    height: 0;
     position: absolute;
-    right: 16px;
+    right: 5px;
     top: 50%;
     margin-top: -3px;
     border-width: 6px 6px 0 6px;
