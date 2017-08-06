@@ -1,4 +1,5 @@
 import Chrome from './chrome';
+import MBStyle from './map/style';
 import {EventEmitter} from 'events';
 
 class Config extends EventEmitter {
@@ -62,12 +63,12 @@ class Config extends EventEmitter {
 const defaultConfig = {
 
     styles: [
-        'mapbox://styles/mapbox/streets-v9',
-        'mapbox://styles/mapbox/light-v9',
-        'mapbox://styles/mapbox/dark-v9',
-        'mapbox://styles/mapbox/outdoors-v9',
-        'mapbox://styles/mapbox/satellite-streets-v9',
-        'mapbox://styles/mapbox/satellite-v9'
+        new MBStyle('mapbox://styles/mapbox/streets-v9', true),
+        new MBStyle('mapbox://styles/mapbox/light-v9', true),
+        new MBStyle('mapbox://styles/mapbox/dark-v9', false),
+        new MBStyle('mapbox://styles/mapbox/outdoors-v9', true),
+        new MBStyle('mapbox://styles/mapbox/satellite-streets-v9', false),
+        new MBStyle('mapbox://styles/mapbox/satellite-v9', false)
     ],
     userLocation: false
 }

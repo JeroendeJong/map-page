@@ -9,18 +9,26 @@ class PlaceName extends Component {
         super();
         this.state = {
             name: null,
-            region: null
+            region: null,
+            isDark: null
         }
     }
 
     componentDidMount() {
-        this.props.map.on('location retrieved', this.locationParse.bind(this));
+        this.props.map.on('location retrieved', this.setLocation.bind(this));
+        this.props.map.on('style retrieved', this.setTextColor.bind(this));
     }
 
-    locationParse(location) {
+    setLocation(location) {
         this.setState({
             name: location.name,
             region: location.region
+        });
+    }
+
+    setTextColor(style) {
+        this.setState({
+            isDark: style.darkMode
         });
     }
 
@@ -29,8 +37,14 @@ class PlaceName extends Component {
             return null;
         }
 
+        if (this.state.isDark === null) {
+            return null;
+        }
+
+        const styleClass = this.state.isDark ? 'place-name-dark' : 'place-name-light';
+
         return (
-            <div className="place-name">
+            <div className={"place-name " + styleClass}>
                 <div className="place-name-city">
                     {this.state.name}
                 </div>

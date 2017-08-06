@@ -1,11 +1,11 @@
 
 class MBStyle {
     url: null
-    color: null
+    darkMode: null
 
-    constructor(url, color) {
+    constructor(url, darkMode) {
         this.url = url;
-        this.color = color;
+        this.darkMode = darkMode;
 
         this.assertStyle();
     }

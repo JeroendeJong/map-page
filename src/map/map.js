@@ -30,9 +30,12 @@ class Map extends EventEmitter {
     }
 
     _createMap(centre) {
+        const style = this.getRandomStyle();
+        this.emit('style retrieved', style);
+
         this.map = new mapboxgl.Map({
             container: 'map',
-            style: this.getRandomStyle(),
+            style: style.url,
             center: [centre.long, centre.lat],
             zoom: 13
         });
@@ -41,7 +44,7 @@ class Map extends EventEmitter {
     getRandomStyle() {
         const stylesArr = this.mapConfig.config.styles;
         const randIdx = Math.floor(Math.random() * stylesArr.length);
-        return stylesArr[randIdx].url;
+        return stylesArr[randIdx];
     }
 
     getMapLocation() {

@@ -6,3 +6,12 @@
     margin-bottom: 10px;
     margin-left: 10px;
 }
+
+.place-name-light {
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.place-name-dark {
+    color: black;
+}
