@@ -14,3 +14,6 @@ Todo:
 - Add option to slowly automatically pan the map
 - Default the map interaction to false
 - Find out a way to make user location quicker (maybe store it and when actual current location is in slowly pan over to that location)
+
+###Style Class:
+- fetch the style specs for a given style. If spec can't be retrieved, style does not exist. 

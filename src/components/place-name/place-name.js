@@ -18,7 +18,6 @@ class PlaceName extends Component {
     }
 
     locationParse(location) {
-        console.log(location);
         this.setState({
             name: location.name,
             region: location.region
@@ -26,7 +25,6 @@ class PlaceName extends Component {
     }
 
     render() {
-
         if (!this.state.name || !this.state.region) {
             return null;
         }

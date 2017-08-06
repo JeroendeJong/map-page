@@ -2,6 +2,7 @@ import mapboxgl from 'mapbox-gl';
 import {EventEmitter} from 'events';
 import csvParser from 'comma-separated-values';
 
+import Location from './location';
 import './map.css';
 import CitiesUrl from '../assets/countries.csv';
 
@@ -24,7 +25,7 @@ class Map extends EventEmitter {
             this.location = location;
             this.emit('location retrieved', location);
         }).catch(err => {
-            console.log('Map not Loaded:  ', err);
+            throw err;
         });
     }
 
@@ -40,7 +41,7 @@ class Map extends EventEmitter {
     getRandomStyle() {
         const stylesArr = this.mapConfig.config.styles;
         const randIdx = Math.floor(Math.random() * stylesArr.length);
-        return stylesArr[randIdx];
+        return stylesArr[randIdx].url;
     }
 
     getMapLocation() {
@@ -88,7 +89,6 @@ class Map extends EventEmitter {
                 const csv = handler.parse();
                 const randIdx = Math.floor( Math.random() * csv.length)
                 const entry = csv[randIdx];
-                console.log(entry);
                 const loc = new Location(entry.lat, entry.lng, {
                     name: entry.city,
                     region: `${entry.province}, ${entry.country}`
@@ -100,48 +100,6 @@ class Map extends EventEmitter {
             });
         });
     }
-}
-
-
-class Location {
-    name: null
-    region: null
-    lat: null
-    long: null
-
-    constructor(lat, long, opt) {
-        if (!lat || !long) {
-            throw new Error('Location needs a lat and long value!');
-        }
-
-        this.lat = lat;
-        this.long = long;
-        this.name = opt.name || null;
-        this.region = opt.region || null;
-    }
-
-    getNameAndRegion() {
-        const self = this;
-        const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.long},${this.lat}.json?types=place&access_token=${mapboxgl.accessToken}`
-
-        return new Promise(function(resolve, reject) {
-            fetch(url)
-                .then(resp => { return resp.json(); })
-                .then(json => {
-                    if (json.features.length > 0) {
-                        self.name = json.features[0].text;
-                        const placeArr = json.features[0].place_name.split(',')
-                        self.region = `${placeArr[1]}, ${placeArr[2]}`;
-                        resolve(self);
-                    } else {
-                        reject('No Geocoding available for location');
-                    }
-                }).catch(err => {
-                    reject(err);
-                })
-        });
-    }
-
 }
 
 export default Map;
