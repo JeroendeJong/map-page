@@ -14,6 +14,7 @@ class Location {
         if (this.assertLatLong(lat, long)) {
             throw new LocationError('Invalid latitude or longitude value, maybe they are switched?')
         }
+        opt = opt || {};
 
         this.lat = lat;
         this.long = long;

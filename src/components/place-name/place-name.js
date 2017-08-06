@@ -20,10 +20,21 @@ class PlaceName extends Component {
     }
 
     setLocation(location) {
-        this.setState({
-            name: location.name,
-            region: location.region
-        });
+        if (!location.name && !location.region) {
+            location.getNameAndRegion().then(loc => {
+
+                this.setState({
+                    name: loc.name,
+                    region: loc.region
+                });
+            })
+        } else {
+
+            this.setState({
+                name: location.name,
+                region: location.region
+            });
+        }
     }
 
     setTextColor(style) {
