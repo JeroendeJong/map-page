@@ -13,22 +13,43 @@ class Settings extends Component {
             hover: false,
             settingsStyle: {
                 display: 'none'
-            }
+            },
+            config: null
         }
 
         this.handleButtonClick = this.handleButtonClick.bind(this);
-        this.handleButtonHover = this.handleButtonHover.bind(this);
+        this.HandleButtonHoverOn = this.HandleButtonHoverOn.bind(this);
+        this.HandleButtonHoverOff = this.HandleButtonHoverOff.bind(this);
         this.handleLocationChange = this.handleLocationChange.bind(this);
+
+        this.getDefaultStateForInput = this.getDefaultStateForInput.bind(this)
     }
 
     componentDidMount() {
-        console.log(this.props.map);
+        this.props.map.mapConfig.on('config retrieved', config => {
+            this.setState({ config: config });
+        });
 
+        this.props.map.mapConfig.on('config saved', config => {
+            this.setState({ config: config });
+        })
 
-        // this.props.map.config.on('config retrieved')
-        // this.props.map.config.on('config saved')
-        // this.props.map.config.on('config not saved')
+        this.props.map.mapConfig.on('config not saved', config => {
+            this.setState({ config: config })
+        })
+    }
 
+    getDefaultStateForInput(inputName) {
+        console.log(inputName);
+        const config = this.state.config
+
+        switch (this.state.inputName) {
+            case 'userLocation':
+                return config ? config.userLocation : false;
+                break;
+            default:
+                return config ? config.userLocation : false;
+        }
 
 
     }
@@ -53,26 +74,30 @@ class Settings extends Component {
         }
     }
 
-    handleButtonHover(_, evt) {
-        if (evt.type === 'react-mouseover' && !this.state.hover) {
+    HandleButtonHoverOn() {
+        if (!this.state.hover) {
             this.setState({ hover: true });
-        } else if (evt.type === 'react-mouseleave' && this.state.hover ) {
+        }
+    }
+
+    HandleButtonHoverOff() {
+        if (this.state.hover) {
             this.setState({ hover: false });
         }
     }
 
     handleLocationChange(evt) {
         if (evt.target.checked) {
-            this.props.map.config.enableUserLocation();
+            this.props.map.mapConfig.enableUserLocation();
         } else {
-            this.props.map.config.disableUserLocation();
+            this.props.map.mapConfig.disableUserLocation();
         }
     }
 
     renderButton() {
         const animitedClass = this.state.hover ? "settings-button-cog-animated" : ""
         return (
-            <div className="settings-button" onClick={this.handleButtonClick} onMouseOver={this.handleButtonHover} onMouseLeave={this.handleButtonHover}>
+            <div className="settings-button" onClick={this.handleButtonClick} onMouseOver={this.HandleButtonHoverOn} onMouseLeave={this.HandleButtonHoverOff}>
                 <img className={"settings-button-cog " + animitedClass} src={cogIcon} alt="Loading Cog" height="28" width="28"/>
             </div>
         )
@@ -82,12 +107,14 @@ class Settings extends Component {
         const animitedClass = this.state.showSettings ? "popup-show" : "popup-hide"
         return (
             <div className={"settings-view " + animitedClass} style={this.state.settingsStyle}>
+                <h2 className="settings-view-header">
+                    Extension Settings:
+                </h2>
                 <form>
                     <label>
-                        Show User Location:
-                        <input name="userLocation" type="checkbox" onChange={this.handleLocationChange}/>
+                        Show User Location (Slow):
+                        <input name="userLocation" type="checkbox" value={ e => { return this.getDefaultStateForInput('userLocation') }} onChange={this.handleLocationChange}/>
                     </label>
-
                 </form>
             </div>
         )

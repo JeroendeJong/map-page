@@ -35,13 +35,15 @@
     box-shadow: rgba(0, 0, 0, 0.32) 0px 0px 25px 6px;
     border-radius: 2px;
     display: inline-block;
-    height: 534px;
     max-width: 700px;
     padding: 15px;
     position: relative;
     vertical-align: middle;
-    width: 700px;
     margin: auto;
+}
+
+.settings-view-header {
+    margin-top: 0px;
 }
 
 
@@ -55,8 +57,8 @@
 .popup-show {
     -webkit-animation-name: slideInDown;
     animation-name: slideInDown;
-    -webkit-animation-duration: 0.7s;
-    animation-duration: 0.7s;
+    -webkit-animation-duration: 0.4s;
+    animation-duration: 0.4s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both
 }
