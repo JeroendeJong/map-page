@@ -40,18 +40,9 @@ class Settings extends Component {
     }
 
     getDefaultStateForInput(inputName) {
-        console.log(inputName);
-        const config = this.state.config
-
-        switch (this.state.inputName) {
-            case 'userLocation':
-                return config ? config.userLocation : false;
-                break;
-            default:
-                return config ? config.userLocation : false;
-        }
-
-
+        const config = this.state.config;
+        const defaultConf = this.props.map.mapConfig.defaultConfig;
+        return config ? config[inputName] : defaultConf[inputName];
     }
 
     handleButtonClick() {

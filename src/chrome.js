@@ -15,7 +15,9 @@ function setItemToStorage(item, key) {
             reject('No Storage Object! (check permission!)');
         }
 
-        _getChromeInstance().storage.sync.set({key, item}, () => {
+        const obj = {};
+        obj[key] = item;
+        _getChromeInstance().storage.sync.set(obj, () => {
             if (!_getLastRuntimeError()) {
                 resolve('Settings Saved!');
             } else {
@@ -43,11 +45,11 @@ function getItemFromStorage(key) {
             if (_getLastRuntimeError()) {
                 reject(_getLastRuntimeError());
             }
-            else if ( Object.keys(item).length === 0 ) {
+            else if ( Object.keys(item).length === 0 || Object.keys(item.mapConfig).length === 0) {
                 reject('Item not Stored');
             }
             else {
-                resolve(item);
+                resolve(item[key]);
             }
         });
     });
