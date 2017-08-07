@@ -1,3 +1,4 @@
+# Chrome Extension Mapbox Page
 Chrome extension that replaces the new tab screen with a map from the Mapbox styling. This extension still loads your bookmarks as usual so you can still easily access those!
 
 

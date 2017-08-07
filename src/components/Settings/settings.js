@@ -14,7 +14,7 @@ class Settings extends Component {
             settingsStyle: {
                 display: 'none'
             },
-            config: null
+            config: {}
         }
 
         this.handleButtonClick = this.handleButtonClick.bind(this);
@@ -25,7 +25,7 @@ class Settings extends Component {
         this.getDefaultStateForInput = this.getDefaultStateForInput.bind(this)
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.map.mapConfig.on('config retrieved', config => {
             this.setState({ config: config });
         });
@@ -104,7 +104,7 @@ class Settings extends Component {
                 <form>
                     <label>
                         Show User Location (Slow):
-                        <input name="userLocation" type="checkbox" value={ e => { return this.getDefaultStateForInput('userLocation') }} onChange={this.handleLocationChange}/>
+                        <input name="userLocation" type="checkbox" value={ this.state.config.userLocation } onChange={this.handleLocationChange}/>
                     </label>
                 </form>
             </div>

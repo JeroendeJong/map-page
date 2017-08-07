@@ -92,10 +92,7 @@ class Map extends EventEmitter {
                 const csv = handler.parse();
                 const randIdx = Math.floor( Math.random() * csv.length)
                 const entry = csv[randIdx];
-                const loc = new Location(entry.lat, entry.lng, {
-                    name: entry.city,
-                    region: `${entry.province}, ${entry.country}`
-                });
+                const loc = new Location(entry.lat, entry.lng);
 
                 resolve(loc);
             }).catch(err => {

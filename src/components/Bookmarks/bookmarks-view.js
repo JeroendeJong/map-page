@@ -52,7 +52,7 @@ class BookmarkView extends Component {
                 const maxBmOnPage = parseInt(window.innerWidth / BookmarkLength, 10);
                 this.setState({
                     bookmarks: bookmarks,
-                    pagesNeeded: Math.ceil(this.state.bookmarks.length / maxBmOnPage)
+                    pagesNeeded: Math.ceil(bookmarks.length / maxBmOnPage)
                 });
             });
         }

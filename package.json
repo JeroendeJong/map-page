@@ -6,7 +6,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build:test": "react-scripts build && cp chrome/manifest.json build/",
-    "build:final": "react-scripts build && cp chrome/manifest.json build/ && npm run create-extension",
+    "build:production": "react-scripts build && cp chrome/manifest.json build/ && npm run create-extension",
     "create-extension": "manifest_path=./build node chrome/create-extension.js"
   },
   "author": "Jeroen de Jong",

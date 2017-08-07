@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './components/App';
-import Map from './map';
+import { Map } from './mapbox';
 import Config from './config';
 
 // initiate map

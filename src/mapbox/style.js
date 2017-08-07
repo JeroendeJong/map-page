@@ -1,5 +1,5 @@
 
-class MBStyle {
+class Style {
     url: null
     darkMode: null
 
@@ -13,21 +13,21 @@ class MBStyle {
     assertStyle() {
         if (!this.url.startsWith('mapbox://styles')) {
             if (this.url.split('.').length === 2) {
-                throw new MBStyleError('Classic Mapbox Style URLS are not supported');
+                throw new StyleError('Classic Mapbox Style URLS are not supported');
             } else {
-                throw new MBStyleError('Incorrect URL provide, does the mapbox url exist?');
+                throw new StyleError('Incorrect URL provide, does the mapbox url exist?');
             }
         }
         return this.url;
     }
 }
 
-function MBStyleError(message) {
+function StyleError(message) {
   this.name = 'IncorrectStyleError';
   this.message = message || 'Mapbox style incorrect';
   this.stack = (new Error()).stack;
 }
-MBStyleError.prototype = Object.create(Error.prototype);
-MBStyleError.prototype.constructor = MBStyleError;
+StyleError.prototype = Object.create(Error.prototype);
+StyleError.prototype.constructor = StyleError;
 
-export default MBStyle;
+export default Style;
