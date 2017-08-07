@@ -5,7 +5,7 @@ Todo:
 
 ### Bookmarks Component:
 - [ ] Parse bookmark name length to not exceed certain length and handle with ... at the end.
-- [ ] if more main bookmarks than can be shown on screen, render an arrow icon next to the settings and when clicked it slides to the next main bookmarks.
+- [x] if more main bookmarks than can be shown on screen, render an arrow icon next to the settings and when clicked it slides to the next main bookmarks.
 
 ### Place Name Component:
 - [x] Make styling dependent on map style (so you can always read the name)

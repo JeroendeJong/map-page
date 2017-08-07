@@ -27,7 +27,7 @@
 
 /* DEMO 2 */
 
-.bookmarks-button {
+.bookmarks-item {
     /* Size and position */
 
     position: relative; /* Enable absolute positionning for children and pseudo elements */
@@ -41,7 +41,7 @@
     outline: none;
 }
 
-.bookmarks-button:after {
+.bookmarks-item:after {
     transform: rotate(90deg);
     content: "";
     position: absolute;
@@ -60,7 +60,27 @@
     border-left-color: #00ACED;
 }
 
-.bookmarks-button .dropdown {
+.dropdown-element .bookmarks-item {
+    border-bottom: 1px solid #00ACED;
+    border-top: 1px solid #00ACED;
+}
+
+.bookmarks-dropdown {
+    margin: 0px;
+    list-style: none;
+    padding: 0px;
+}
+
+.bookmark-page-button {
+    height: 22px;
+    width: 13px;
+}
+
+.bookmark-back-button::after {
+    transform: rotate(270deg);
+}
+
+.bookmarks-item .dropdown {
   /* Size & position */
     position: absolute;
     top: 100%;
@@ -83,7 +103,7 @@
     pointer-events: none;
 }
 
-.bookmarks-view-table a {
+a {
     text-decoration: none;
     color: #333;
     -webkit-transition: all 0.3s ease-out;
@@ -93,19 +113,19 @@
     transition: all 0.3s ease-out;
 }
 
-.bookmarks-button .dropdown li:nth-child(1) a {
+.bookmarks-item .dropdown li:nth-child(1) a {
     border-left-color: #00ACED;
 }
 
-.bookmarks-button .dropdown li:nth-child(2) a {
+.bookmarks-item .dropdown li:nth-child(2) a {
     border-left-color: #4183C4;
 }
 
-.bookmarks-button .dropdown li:nth-child(3) a {
+.bookmarks-item .dropdown li:nth-child(3) a {
     border-left-color: #3B5998;
 }
 
-.bookmarks-button .dropdown li i {
+.bookmarks-item .dropdown li i {
     margin-right: 5px;
     color: inherit;
     vertical-align: middle;
@@ -113,31 +133,31 @@
 
 /* Hover state */
 
-.bookmarks-button .dropdown li:hover a {
+.bookmarks-item .dropdown li:hover a {
     color: grey;
 }
 
 /* Active state */
 
-.bookmarks-button:after {
+.bookmarks-item:after {
     border-width: 0 6px 6px 6px;
 }
 
-.bookmarks-button .dropdown {
+.bookmarks-item .dropdown {
     opacity: 1;
     pointer-events: auto;
 }
 
 /* No CSS3 support */
 
-.no-opacity       .bookmarks-button .dropdown,
-.no-pointerevents .bookmarks-button .dropdown {
+.no-opacity       .bookmarks-item .dropdown,
+.no-pointerevents .bookmarks-item .dropdown {
     display: none;
     opacity: 1; /* If opacity support but no pointer-events support */
     pointer-events: auto; /* If pointer-events support but no pointer-events support */
 }
 
-.no-opacity       .bookmarks-button.active .dropdown,
-.no-pointerevents .bookmarks-button.active .dropdown {
+.no-opacity       .bookmarks-item.active .dropdown,
+.no-pointerevents .bookmarks-item.active .dropdown {
     display: block;
 }
