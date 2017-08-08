@@ -45,9 +45,7 @@ class BookmarkView extends Component {
             Chrome.getBookmarks().then( bm => {
 
                 const containerTypes = bm[0].children;
-                const bookmarks = containerTypes.filter(e => {
-                    return e.title === 'Bookmarks Bar'
-                })[0];
+                const bookmarks = containerTypes[0].children;
 
                 const maxBmOnPage = parseInt(window.innerWidth / BookmarkLength, 10);
                 this.setState({
