@@ -1,8 +1,14 @@
 # Chrome Extension Mapbox Page
 Chrome extension that replaces the new tab screen with a map from the Mapbox styling. This extension still loads your bookmarks as usual so you can still easily access those!
 
+#### Steps to create the extension build for Chrome:
+1. Install node modules: `npm install`
+2. Build the project: `npm run build:test` (`build:production` also create .crx and .pem key which you only need for publishing)
+3. Go To `chrome://extensions` in the browser
+4. Enable developer mode and add the `build/` folder as an unpacked extension
+5. Open a new tab and the page should be a beautifull map :)
 
-Todo:
+## Todo's:
 
 ### Bookmarks Component:
 - [ ] Parse bookmark name length to not exceed certain length and handle with ... at the end.
