@@ -28,14 +28,10 @@
 /* DEMO 2 */
 
 .bookmarks-item {
-    /* Size and position */
-
-    position: relative; /* Enable absolute positionning for children and pseudo elements */
+    position: relative;
     width: 120px;
     padding: 7px 5px;
-
-    /* Styles */
-    font-size: 14px;
+    font-size: 12px;
     background: #fff;
     cursor: pointer;
     outline: none;
