@@ -1,17 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import './place-name.css';
 
 class PlaceName extends Component {
-
     constructor() {
         super();
         this.state = {
             name: null,
             region: null,
-            isDark: null
-        }
+            isDark: null,
+        };
     }
 
     componentDidMount() {
@@ -21,25 +20,23 @@ class PlaceName extends Component {
 
     setLocation(location) {
         if (!location.name && !location.region) {
-            location.getNameAndRegion().then(loc => {
-
+            location.getNameAndRegion().then((loc) => {
                 this.setState({
                     name: loc.name,
-                    region: loc.region
+                    region: loc.region,
                 });
-            })
+            });
         } else {
-
             this.setState({
                 name: location.name,
-                region: location.region
+                region: location.region,
             });
         }
     }
 
     setTextColor(style) {
         this.setState({
-            isDark: style.darkMode
+            isDark: style.darkMode,
         });
     }
 
@@ -55,7 +52,7 @@ class PlaceName extends Component {
         const styleClass = this.state.isDark ? 'place-name-dark' : 'place-name-light';
 
         return (
-            <div className={"place-name " + styleClass}>
+            <div className={`place-name ${styleClass}`}>
                 <div className="place-name-city">
                     {this.state.name}
                 </div>
@@ -66,12 +63,11 @@ class PlaceName extends Component {
             </div>
         );
     }
-
 }
 
 PlaceName.propTypes = {
-    map: PropTypes.object.isRequired
-}
+    map: PropTypes.object.isRequired,
+};
 
 export default PlaceName;
 

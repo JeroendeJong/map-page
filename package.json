@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "react-scripts start",
+    "lint": "eslint src/" ,
     "build:test": "react-scripts build && cp chrome/manifest.json build/",
     "build:production": "react-scripts build && cp chrome/manifest.json build/ && npm run create-extension",
     "create-extension": "manifest_path=./build node chrome/create-extension.js"
@@ -19,7 +20,7 @@
     "react-dom": "^15.6.1"
   },
   "devDependencies": {
-    "react-scripts": "1.0.10"
+    "react-scripts": "1.0.10",
     "eslint": "^4.5.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",

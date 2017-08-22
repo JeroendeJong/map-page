@@ -1,4 +1,15 @@
 /*
+*  Helper Functions
+*/
+function getChromeInstance() {
+    return window.chrome;
+}
+
+function getLastRuntimeError() {
+    return getChromeInstance() ? getChromeInstance().runtime.lastError : undefined;
+}
+
+/*
 *  Local Storage Handlers
 */
 function setItemToStorage(item, key) {
@@ -6,115 +17,102 @@ function setItemToStorage(item, key) {
         throw new Error('Both Item and Key must be present!');
     }
 
-    return new Promise(function(resolve, reject) {
-        if (!_getChromeInstance() ) {
+    return new Promise(((resolve, reject) => {
+        if (!getChromeInstance()) {
             reject('No Chrome Object!');
         }
 
-        if (!_getChromeInstance().storage) {
+        if (!getChromeInstance().storage) {
             reject('No Storage Object! (check permission!)');
         }
 
         const obj = {};
         obj[key] = item;
-        _getChromeInstance().storage.sync.set(obj, () => {
-            if (!_getLastRuntimeError()) {
+        getChromeInstance().storage.sync.set(obj, () => {
+            if (!getLastRuntimeError()) {
                 resolve('Settings Saved!');
             } else {
-                reject(_getLastRuntimeError());
+                reject(getLastRuntimeError());
             }
         });
-    });
+    }));
 }
 
 function getItemFromStorage(key) {
     if (!key) {
-        throw new Error('Key must be present!')
+        throw new Error('Key must be present!');
     }
 
-    return new Promise(function(resolve, reject) {
-        if (!_getChromeInstance() ) {
+    return new Promise(((resolve, reject) => {
+        if (!getChromeInstance()) {
             reject('No Chrome Object!');
         }
 
-        if (!_getChromeInstance().storage) {
+        if (!getChromeInstance().storage) {
             reject('No Storage Object! (check permission!)');
         }
 
-        _getChromeInstance().storage.sync.get(key, item => {
-            if (_getLastRuntimeError()) {
-                reject(_getLastRuntimeError());
-            }
-            else if ( Object.keys(item).length === 0 || Object.keys(item.mapConfig).length === 0) {
+        getChromeInstance().storage.sync.get(key, (item) => {
+            if (getLastRuntimeError()) {
+                reject(getLastRuntimeError());
+            } else if (Object.keys(item).length === 0 || Object.keys(item.mapConfig).length === 0) {
                 reject('Item not Stored');
-            }
-            else {
+            } else {
                 resolve(item[key]);
             }
         });
-    });
+    }));
 }
 
 /*
 *  Bookmark Handler
 */
 function getBookmarks() {
-    return new Promise(function(resolve, reject) {
-        if (!_getChromeInstance() ) {
+    return new Promise(((resolve, reject) => {
+        if (!getChromeInstance()) {
             reject('No Chrome Object!');
         }
 
-        if (!_getChromeInstance().bookmarks) {
+        if (!getChromeInstance().bookmarks) {
             reject('No Bookmarks Object! (check permission!)');
         }
 
-        _getChromeInstance().bookmarks.getTree( bm => {
-            if (!_getLastRuntimeError()) {
+        getChromeInstance().bookmarks.getTree((bm) => {
+            if (!getLastRuntimeError()) {
                 resolve(bm);
             } else {
-                reject(_getLastRuntimeError());
+                reject(getLastRuntimeError());
             }
         });
-    });
+    }));
 }
 
 /*
 *  TopSites Handler
 */
 function getTopSites() {
-    return new Promise(function(resolve, reject) {
-        if (!_getChromeInstance()) {
+    return new Promise(((resolve, reject) => {
+        if (!getChromeInstance()) {
             reject('No Chrome Object!');
         }
 
-        if (!_getChromeInstance().topSites) {
+        if (!getChromeInstance().topSites) {
             reject('No topSites Object! (check permission!)');
         }
 
-        _getChromeInstance().topSites.get( ts => {
-            if (!_getLastRuntimeError()) {
+        getChromeInstance().topSites.get((ts) => {
+            if (!getLastRuntimeError()) {
                 resolve(ts);
             } else {
-                reject(_getLastRuntimeError());
+                reject(getLastRuntimeError());
             }
         });
-    });
-}
-
-/*
-*  Helper Functions
-*/
-function _getChromeInstance() {
-    return window.chrome;
-}
-
-function _getLastRuntimeError() {
-    return _getChromeInstance() ? _getChromeInstance().runtime.lastError : undefined
+    }));
 }
 
 export default {
     setItemToStorage,
     getItemFromStorage,
     getBookmarks,
-    getTopSites
-}
+    getTopSites,
+};

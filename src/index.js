@@ -11,6 +11,6 @@ const map = new Map(config);
 
 // initiate application
 ReactDOM.render(
-  <App map={map}/>,
-  document.getElementById('root')
+    <App map={map} />,
+    document.getElementById('root'),
 );

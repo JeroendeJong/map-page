@@ -1,8 +1,13 @@
 
-class Style {
-    url: null
-    darkMode: null
+function StyleError(message) {
+    this.name = 'IncorrectStyleError';
+    this.message = message || 'Mapbox style incorrect';
+    this.stack = (new Error()).stack;
+}
+StyleError.prototype = Object.create(Error.prototype);
+StyleError.prototype.constructor = StyleError;
 
+class Style {
     constructor(url, darkMode) {
         this.url = url;
         this.darkMode = darkMode;
@@ -21,13 +26,5 @@ class Style {
         return this.url;
     }
 }
-
-function StyleError(message) {
-  this.name = 'IncorrectStyleError';
-  this.message = message || 'Mapbox style incorrect';
-  this.stack = (new Error()).stack;
-}
-StyleError.prototype = Object.create(Error.prototype);
-StyleError.prototype.constructor = StyleError;
 
 export default Style;

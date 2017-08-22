@@ -1,27 +1,30 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class BookmarkLink extends Component {
+function getIconForUrl(url) {
+    return `https://www.google.com/s2/favicons?domain=${url}`;
+}
 
-    getIconForUrl() {
-        return 'https://www.google.com/s2/favicons?domain=' + this.props.url;
-    }
-
-    render() {
-        return (
-            <a href={this.props.url}>
-                <div className="bookmarks-item" style={{ "borderLeft": "5px solid skyblue" }}>
-                    <img className="bookmark-item-favicon" src={this.getIconForUrl()} alt="Smiley face" height="16" width="16"/>
-                    <div className="bookmark-item-title">{this.props.title}</div>
-                </div>
-            </a>
-        );
-    }
+function BookmarkLink(props) {
+    return (
+        <a href={props.url}>
+            <div className="bookmarks-item" style={{ borderLeft: '5px solid skyblue' }}>
+                <img
+                    className="bookmark-item-favicon"
+                    src={getIconForUrl(props.url)}
+                    alt="Bookmark Favicon"
+                    height="16"
+                    width="16"
+                />
+                <div className="bookmark-item-title">{props.title}</div>
+            </div>
+        </a>
+    );
 }
 
 BookmarkLink.propTypes = {
     title: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired
-}
+    url: PropTypes.string.isRequired,
+};
 
 export default BookmarkLink;

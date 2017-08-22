@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl';
-import {EventEmitter} from 'events';
-import csvParser from 'comma-separated-values';
+import { EventEmitter } from 'events';
+import CsvParser from 'comma-separated-values';
 
 import Location from './location';
 import './map.css';
@@ -8,36 +8,72 @@ import CitiesUrl from '../assets/countries.csv';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoieTBneiIsImEiOiJjaW9scWxsNzIwMDMxdzVtNm56MHhweGdjIn0.XrmaYtqwrszezXe9y-gBuw';
 
-class Map extends EventEmitter {
+function getUserLocation() {
+    return new Promise(((resolve, reject) => {
+        if (window.navigator.geolocation) {
+            window.navigator.geolocation.getCurrentPosition((pos) => {
+                const loc = new Location(pos.coords.latitude, pos.coords.longitude);
+                resolve(loc);
+            }, (err) => {
+                reject(err);
+            });
+        } else {
+            reject('No Geolocation available');
+        }
+    }));
+}
 
+function getRandomCity() {
+    return new Promise(((resolve, reject) => {
+        fetch(CitiesUrl).then((response) => {
+            if (response.ok) {
+                return response.text();
+            }
+            return response.error();
+        }).then((data) => {
+            const handler = new CsvParser(data, { header: true });
+            const csv = handler.parse();
+            const randIdx = Math.floor(Math.random() * csv.length);
+            const entry = csv[randIdx];
+            const loc = new Location(entry.lat, entry.lng);
+            resolve(loc);
+        }).catch((err) => {
+            reject(err);
+        });
+    }));
+}
+
+class Map extends EventEmitter {
     constructor(config) {
         super();
         this.map = null;
         this.style = null;
         this.location = null;
         this.mapConfig = config;
-        this.mapConfig.once('config retrieved', this.CreateMap.bind(this));
+        this.mapConfig.once('config retrieved', this.setupMap.bind(this));
     }
 
-    CreateMap() {
-        this.getMapLocation().then(location => {
-            this._createMap(location);
+    setupMap() {
+        this.getMapLocation().then((location) => {
+            this.createMap(location);
             this.location = location;
             this.emit('location retrieved', location);
-        }).catch(err => {
+        }).catch((err) => {
             throw err;
         });
     }
 
-    _createMap(centre) {
+    createMap(centre) {
         const style = this.getRandomStyle();
         this.emit('style retrieved', style);
 
         this.map = new mapboxgl.Map({
             container: 'map',
             style: style.url,
-            center: [centre.long, centre.lat],
-            zoom: 13
+            center: [
+                centre.long, centre.lat,
+            ],
+            zoom: 13,
         });
     }
 
@@ -49,55 +85,20 @@ class Map extends EventEmitter {
 
     getMapLocation() {
         const self = this;
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
             if (self.mapConfig.config.userLocation) {
-                self.getUserLocation()
-                    .then(succes => { resolve(succes); })
-                    .catch(err => { reject(err); });
-            } else {
-                self.getRandomCity()
-                    .then(succes => { resolve(succes) })
-                    .catch(err => { reject(err); });
-            }
-        });
-    }
-
-    getUserLocation() {
-        return new Promise(function(resolve, reject) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    const loc = new Location(pos.coords.latitude, pos.coords.longitude);
-                    resolve(loc);
-                }, err => {
+                getUserLocation().then((succes) => {
+                    resolve(succes);
+                }).catch((err) => {
                     reject(err);
                 });
             } else {
-                reject('No Geolocation available');
+                getRandomCity().then((succes) => {
+                    resolve(succes);
+                }).catch((err) => {
+                    reject(err);
+                });
             }
-        });
-    }
-
-    getRandomCity() {
-        return new Promise(function(resolve, reject) {
-            fetch(CitiesUrl).then(response => {
-
-                if (response.ok) {
-                    return response.text()
-                } else {
-                    reject(response.statusText);
-                }
-
-            }).then(data => {
-                const handler = new csvParser(data, {header: true});
-                const csv = handler.parse();
-                const randIdx = Math.floor( Math.random() * csv.length)
-                const entry = csv[randIdx];
-                const loc = new Location(entry.lat, entry.lng);
-
-                resolve(loc);
-            }).catch(err => {
-                reject(err);
-            });
         });
     }
 }

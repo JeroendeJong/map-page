@@ -1,9 +1,21 @@
+import { EventEmitter } from 'events';
+
 import Chrome from './chrome';
-import {Style} from './mapbox';
-import {EventEmitter} from 'events';
+import { Style } from './mapbox';
+
+const defaultConfig = {
+    styles: [
+        new Style('mapbox://styles/mapbox/streets-v9', true),
+        new Style('mapbox://styles/mapbox/light-v9', true),
+        new Style('mapbox://styles/mapbox/dark-v9', false),
+        new Style('mapbox://styles/mapbox/outdoors-v9', true),
+        new Style('mapbox://styles/mapbox/satellite-streets-v9', false),
+        new Style('mapbox://styles/mapbox/satellite-v9', false),
+    ],
+    userLocation: false,
+};
 
 class Config extends EventEmitter {
-
     constructor() {
         super();
         this.config = null;
@@ -11,12 +23,10 @@ class Config extends EventEmitter {
     }
 
     setConfig() {
-        this.getConfigFromStorage().then(config => {
-            console.log(config);
+        this.getConfigFromStorage().then((config) => {
             this.config = config;
             this.emit('config retrieved', config);
-        }).catch( err => {
-            if (err) { console.log(err); }
+        }).catch(() => {
             this.config = defaultConfig;
             this.emit('config retrieved', defaultConfig);
         });
@@ -27,10 +37,10 @@ class Config extends EventEmitter {
     }
 
     putConfigToStorage() {
-        Chrome.setItemToStorage(this.config, 'mapConfig').then(config => {
+        Chrome.setItemToStorage(this.config, 'mapConfig').then(() => {
             this.emit('config saved', this.config);
-        }).catch( err => {
-            if (err) { console.log(err); }
+        }).catch((err) => {
+            if (err) { throw new Error(err); }
             this.getConfigFromStorage();
             this.emit('config not saved', this.config);
         });
@@ -60,17 +70,5 @@ class Config extends EventEmitter {
     }
 }
 
-const defaultConfig = {
-
-    styles: [
-        new Style('mapbox://styles/mapbox/streets-v9', true),
-        new Style('mapbox://styles/mapbox/light-v9', true),
-        new Style('mapbox://styles/mapbox/dark-v9', false),
-        new Style('mapbox://styles/mapbox/outdoors-v9', true),
-        new Style('mapbox://styles/mapbox/satellite-streets-v9', false),
-        new Style('mapbox://styles/mapbox/satellite-v9', false)
-    ],
-    userLocation: false
-}
 
 export default Config;

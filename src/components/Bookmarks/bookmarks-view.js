@@ -1,8 +1,8 @@
-//Library Imports
+// Library Imports
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-//Project Imports
+// Project Imports
 import Chrome from '../../chrome';
 import BookmarkLink from './bookmark-link';
 import BookmarkFolder from './bookmark-folder';
@@ -13,7 +13,6 @@ import './bookmarks.css';
 const BookmarkLength = 170;
 
 class BookmarkView extends Component {
-
     constructor() {
         super();
         this.state = {
@@ -25,8 +24,8 @@ class BookmarkView extends Component {
             currentPage: 0,
             windowWidth: null,
             pagesNeeded: null,
-            maxBookmarksOnPage: null
-        }
+            maxBookmarksOnPage: null,
+        };
 
         this.handleFolderClick = this.handleFolderClick.bind(this);
         this.updateWindowSize = this.updateWindowSize.bind(this);
@@ -40,17 +39,16 @@ class BookmarkView extends Component {
 
     getBookmarks() {
         if (this.props.testBookmarks) {
-            this.setState({bookmarks: this.props.testBookmarks})
+            this.setState({ bookmarks: this.props.testBookmarks });
         } else {
-            Chrome.getBookmarks().then( bm => {
-
+            Chrome.getBookmarks().then((bm) => {
                 const containerTypes = bm[0].children;
                 const bookmarks = containerTypes[0].children;
 
                 const maxBmOnPage = parseInt(window.innerWidth / BookmarkLength, 10);
                 this.setState({
-                    bookmarks: bookmarks,
-                    pagesNeeded: Math.ceil(bookmarks.length / maxBmOnPage)
+                    bookmarks,
+                    pagesNeeded: Math.ceil(bookmarks.length / maxBmOnPage),
                 });
             });
         }
@@ -69,7 +67,7 @@ class BookmarkView extends Component {
         this.setState({
             showDropdown: !this.state.showDropdown,
             currentChildren: bmChildren,
-            currentSelectedIdx: index
+            currentSelectedIdx: index,
         });
     }
 
@@ -78,22 +76,43 @@ class BookmarkView extends Component {
         if (direction === 'next') {
             page = this.state.currentPage + 1;
         } else {
-            page = this.state.currentPage === 0 ? 0 : this.state.currentPage -1;
+            page = this.state.currentPage === 0 ? 0 : this.state.currentPage - 1;
         }
-        this.setState({currentPage: page});
+        this.setState({ currentPage: page });
+    }
+
+    calculateStartingPosition() {
+        const amountBookmarks = this.state.bookmarks.length;
+        const maxBookmarks = this.state.maxBookmarksOnPage;
+        const currentPage = this.state.currentPage;
+
+        const start = amountBookmarks < maxBookmarks
+            ? amountBookmarks * currentPage
+            : maxBookmarks * currentPage;
+
+        const end = amountBookmarks - start < maxBookmarks
+            ? amountBookmarks
+            : maxBookmarks * (currentPage + 1);
+
+        return { start, end };
     }
 
     renderBookmark(bmGroup, i) {
         if (bmGroup.children) {
-            return <BookmarkFolder title={bmGroup.title} onClick={e => this.handleFolderClick(bmGroup.children, i)}/>
-        } else {
-            return <BookmarkLink title={bmGroup.title} url={bmGroup.url}/>
+            return (
+                <BookmarkFolder
+                    title={bmGroup.title}
+                    onClick={() => this.handleFolderClick(bmGroup.children, i)}
+                />
+            );
         }
+        return <BookmarkLink title={bmGroup.title} url={bmGroup.url} />;
     }
 
     renderDropdown() {
         if (this.state.showDropdown) {
-            let margin = ((this.state.currentSelectedIdx % this.state.maxBookmarksOnPage) * 139) + 13;
+            const length = this.state.currentSelectedIdx % this.state.maxBookmarksOnPage;
+            let margin = (length * 139) + 13;
             if (this.state.currentPage > 0) {
                 margin += 27;
             }
@@ -102,31 +121,26 @@ class BookmarkView extends Component {
                 <div style={{
                     position: 'absolute',
                     marginTop: '48px',
-                    marginLeft: `${margin}px`
-                }}>
+                    marginLeft: `${margin}px`,
+                }}
+                >
                     <BookmarkDropdown bookmarks={this.state.currentChildren} />
                 </div>
-            )
+            );
         }
         return null;
     }
 
     renderPaginationButton(direction) {
-        const classes = `bookmarks-item bookmark-page-button bookmark-${direction}-button`
+        const classes = `bookmarks-item bookmark-page-button bookmark-${direction}-button`;
         return (
-            <div className={classes} onClick={ () => this.handleChangePage(direction)}/>
-        )
-    }
-
-    calculateStartingPosition() {
-        const amountBookmarks = this.state.bookmarks.length;
-        const maxBookmarks = this.state.maxBookmarksOnPage;
-        const currentPage = this.state.currentPage;
-
-        const start = amountBookmarks < maxBookmarks ? amountBookmarks * currentPage : maxBookmarks * currentPage;
-        const end = amountBookmarks - start < maxBookmarks ?  amountBookmarks : maxBookmarks * (currentPage + 1);
-
-        return {start,end};
+            <div
+                role="button"
+                tabIndex={0}
+                className={classes}
+                onClick={() => this.handleChangePage(direction)}
+            />
+        );
     }
 
     render() {
@@ -134,14 +148,14 @@ class BookmarkView extends Component {
             return null;
         }
 
-        let output = [];
+        const output = [];
         const bm = this.state.bookmarks;
-        const r = this.calculateStartingPosition()
+        const r = this.calculateStartingPosition();
 
-        for (let i = r.start; i < r.end; i++) {
+        for (let i = r.start; i < r.end; i += 1) {
             output.push(
-                <td key={i}> {this.renderBookmark(bm[i], i)} </td>
-            )
+                <td key={i}> {this.renderBookmark(bm[i], i)} </td>,
+            );
         }
 
         return (
@@ -150,11 +164,11 @@ class BookmarkView extends Component {
                     <tbody>
                         <tr>
                             {this.state.currentPage > 0 &&
-                                <td>{this.renderPaginationButton('back')}</td>
+                            <td>{this.renderPaginationButton('back')}</td>
                             }
                             {output}
                             {r.end < this.state.bookmarks.length &&
-                                <td>{this.renderPaginationButton('next')}</td>
+                            <td>{this.renderPaginationButton('next')}</td>
                             }
                         </tr>
                     </tbody>
@@ -166,8 +180,11 @@ class BookmarkView extends Component {
 }
 
 BookmarkView.propTypes = {
-    testBookmarks: PropTypes.arrayOf(PropTypes.object)
-}
+    testBookmarks: PropTypes.arrayOf(PropTypes.object),
+};
 
+BookmarkView.defaultProps = {
+    testBookmarks: null,
+};
 
 export default BookmarkView;
