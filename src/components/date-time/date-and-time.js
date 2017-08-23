@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DateFormat from 'dateformat'
+import DateFormat from 'dateformat';
 
 import './date-and-time.css';
 
 class DateAndTime extends Component {
-
     constructor(props) {
         super(props);
         this.timer = null;
         this.state = {
             date: new Date(),
-            isDark: false
+            isDark: false,
         };
     }
 
@@ -25,7 +24,7 @@ class DateAndTime extends Component {
     }
 
     setTextColor(style) {
-        this.setState({ isDark: style.darkMode, });
+        this.setState({ isDark: style.darkMode });
     }
 
     tick() {
@@ -40,9 +39,8 @@ class DateAndTime extends Component {
                     {DateFormat(this.state.date, 'ddd d mmm yyyy HH:MM:ss')}
                 </div>
             </div>
-        )
+        );
     }
-
 }
 
 DateAndTime.propTypes = {

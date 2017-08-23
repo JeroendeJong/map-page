@@ -35,7 +35,7 @@ class BookmarkDropdown extends Component {
                     <div
                         role="button"
                         tabIndex={0}
-                        className="dropdown-element bookmarks-item"
+                        className="dropdown-element bookmarks-item bookmarks-button"
                         onClick={() => {
                             this.renderNextView(bookmark.children);
                         }}

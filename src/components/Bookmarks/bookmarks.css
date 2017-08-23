@@ -1,6 +1,20 @@
+a {
+    text-decoration: none;
+    color: #333;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
 .bookmarks-view {
     height: 40px;
     display: flex;
+}
+
+.bookmark-item-title {
+    float: right;
 }
 
 .bookmark-item-favicon {
@@ -14,10 +28,12 @@
     margin-left: 10px;
 }
 
+
+
 .bookmarks-item {
     padding-left: 5px;
     position: relative;
-    width: 110px;
+    height: 20px;
     padding: 6px 3px;
     font-size: 12px;
     background: #fff;
@@ -25,7 +41,7 @@
     outline: none;
 }
 
-.bookmarks-item:after {
+.bookmarks-button:after {
     transform: rotate(90deg);
     content: "";
     position: absolute;
@@ -85,63 +101,4 @@
     /* Hiding */
     opacity: 0;
     pointer-events: none;
-}
-
-a {
-    text-decoration: none;
-    color: #333;
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -ms-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-}
-
-.bookmarks-item .dropdown li:nth-child(1) a {
-    border-left-color: #00ACED;
-}
-
-.bookmarks-item .dropdown li:nth-child(2) a {
-    border-left-color: #4183C4;
-}
-
-.bookmarks-item .dropdown li:nth-child(3) a {
-    border-left-color: #3B5998;
-}
-
-.bookmarks-item .dropdown li i {
-    margin-right: 5px;
-    color: inherit;
-    vertical-align: middle;
-}
-
-/* Hover state */
-
-.bookmarks-item .dropdown li:hover a {
-    color: grey;
-}
-
-/* Active state */
-
-.bookmarks-item:after {
-    border-width: 0 6px 6px 6px;
-}
-
-.bookmarks-item .dropdown {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* No CSS3 support */
-
-.no-opacity       .bookmarks-item .dropdown,
-.no-pointerevents .bookmarks-item .dropdown {
-    display: none;
-    opacity: 1; /* If opacity support but no pointer-events support */
-    pointer-events: auto; /* If pointer-events support but no pointer-events support */
-}
-
-.no-opacity       .bookmarks-item.active .dropdown,
-.no-pointerevents .bookmarks-item.active .dropdown {
-    display: block;
 }

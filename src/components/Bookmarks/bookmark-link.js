@@ -16,7 +16,7 @@ function BookmarkLink(props) {
                     height="16"
                     width="16"
                 />
-                <div>{props.title}</div>
+                <div className="bookmark-item-title">{props.title}</div>
             </div>
         </a>
     );

@@ -35,7 +35,7 @@ class PlaceName extends Component {
     }
 
     setTextColor(style) {
-        this.setState({ isDark: style.darkMode, });
+        this.setState({ isDark: style.darkMode });
     }
 
     render() {
