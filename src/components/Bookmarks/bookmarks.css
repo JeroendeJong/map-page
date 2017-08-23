@@ -3,21 +3,10 @@
     display: flex;
 }
 
-.bookmarks-item {
-    padding-left: 5px;
-}
-
-
 .bookmark-item-favicon {
     float: left;
-    padding-top: 3px;
-    padding-left: 5px;
-}
-
-.bookmark-item-title {
     padding-top: 1px;
-    padding-left: 2px;
-    display: inline;
+    padding-right: 4px;
 }
 
 .bookmarks-view-table {
@@ -25,12 +14,11 @@
     margin-left: 10px;
 }
 
-/* DEMO 2 */
-
 .bookmarks-item {
+    padding-left: 5px;
     position: relative;
-    width: 120px;
-    padding: 7px 5px;
+    width: 110px;
+    padding: 6px 3px;
     font-size: 12px;
     background: #fff;
     cursor: pointer;
