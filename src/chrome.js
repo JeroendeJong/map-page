@@ -1,3 +1,4 @@
+import env from './environment';
 /*
 *  Helper Functions
 */
@@ -43,7 +44,7 @@ function getItemFromStorage(key) {
         throw new Error('Key must be present!');
     }
 
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         if (!getChromeInstance()) {
             reject('No Chrome Object!');
         }
@@ -53,15 +54,17 @@ function getItemFromStorage(key) {
         }
 
         getChromeInstance().storage.sync.get(key, (item) => {
+            const resultLength = Object.keys(item).length;
+
             if (getLastRuntimeError()) {
                 reject(getLastRuntimeError());
-            } else if (Object.keys(item).length === 0 || Object.keys(item.mapConfig).length === 0) {
+            } else if (resultLength === 0 || Object.keys(item[env.configKey]).length === 0) {
                 reject('Item not Stored');
             } else {
                 resolve(item[key]);
             }
         });
-    }));
+    });
 }
 
 /*

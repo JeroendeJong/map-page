@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 
 import Chrome from './chrome';
 import { Style } from './mapbox';
+import env from './environment';
 
 const defaultConfig = {
     styles: [
@@ -23,7 +24,7 @@ class Config extends EventEmitter {
     }
 
     setConfig() {
-        this.getConfigFromStorage().then((config) => {
+        Chrome.getItemFromStorage(env.configKey).then((config) => {
             this.config = config;
             this.emit('config retrieved', config);
         }).catch(() => {
@@ -32,16 +33,11 @@ class Config extends EventEmitter {
         });
     }
 
-    getConfigFromStorage() {
-        return Chrome.getItemFromStorage('mapConfig');
-    }
-
     putConfigToStorage() {
-        Chrome.setItemToStorage(this.config, 'mapConfig').then(() => {
+        Chrome.setItemToStorage(this.config, env.configKey).then(() => {
             this.emit('config saved', this.config);
         }).catch((err) => {
             if (err) { throw new Error(err); }
-            this.getConfigFromStorage();
             this.emit('config not saved', this.config);
         });
     }

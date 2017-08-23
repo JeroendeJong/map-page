@@ -6,10 +6,17 @@ import Settings from '../Settings/settings';
 import PlaceName from '../place-name';
 import './App.css';
 
+import env from '../../environment';
+
 function App(props) {
+    let bookmarks = null;
+    if (env.bookmarks) {
+        bookmarks = env.bookmarks;
+    }
+
     return (
         <div className="App">
-            <BookmarkView />
+            <BookmarkView testBookmarks={bookmarks} />
             <Settings map={props.map} />
             <PlaceName map={props.map} />
         </div>
