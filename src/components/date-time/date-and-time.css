@@ -1,0 +1,19 @@
+
+
+.date-name {
+    font-size: 18px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.date-name-light {
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.date-name-dark {
+    color: black;
+}

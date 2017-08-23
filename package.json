@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "react-scripts start",
-    "lint": "eslint src/" ,
+    "lint": "eslint src/",
     "build:test": "react-scripts build && cp chrome/manifest.json build/",
     "build:production": "react-scripts build && cp chrome/manifest.json build/ && npm run create-extension",
     "create-extension": "manifest_path=./build node chrome/create-extension.js"
@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "comma-separated-values": "^3.6.4",
+    "dateformat": "^2.0.0",
     "mapbox-gl": "^0.39.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
