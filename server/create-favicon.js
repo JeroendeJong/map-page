@@ -92,11 +92,12 @@ class Favicon {
         }
 
         if (icons.length > 1) {
-            let sizes = []
+            let sizes = [];
 
             for (var i = 0; i < icons.length; i++) {
                 const attr = icons[i].attribs;
                 attr.type = attr.type || '';
+                attr.sizes = attr.sizes || '0x0';
 
                 if (attr.type.search('svg') !== -1) {
                     return this.makeUrl(attr.href);
@@ -107,6 +108,7 @@ class Favicon {
                     size: parseInt(attr.sizes.split('x')[0])
                 });
             }
+
             let maxVal = { size: 0 };
             sizes.map(e =>  maxVal = e.size > maxVal.size ? e : maxVal)
 
@@ -115,7 +117,7 @@ class Favicon {
     }
 
     makeUrl(faviconUrl) {
-        if (faviconUrl.search('http') === -1) {
+        if (faviconUrl.search('http') === -1 && faviconUrl.search('www.') === -1) {
             return  `${this.url}${faviconUrl}`;
         } else {
             return faviconUrl;

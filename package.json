@@ -8,11 +8,13 @@
     "lint": "eslint src/",
     "build:test": "react-scripts build && cp chrome/manifest.json build/",
     "build:production": "react-scripts build && cp chrome/manifest.json build/ && npm run create-extension",
-    "create-extension": "manifest_path=./build node chrome/create-extension.js"
+    "create-extension": "manifest_path=./build node chrome/create-extension.js",
+    "server": "node server/main.js"
   },
   "author": "Jeroen de Jong",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "cheerio": "^1.0.0-rc.2",
     "comma-separated-values": "^3.6.4",
     "dateformat": "^2.0.0",
