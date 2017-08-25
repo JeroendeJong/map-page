@@ -3,8 +3,8 @@
 # dependencies
 /node_modules
 
-# testing
-/coverage
+# images
+/server/images/*
 
 # production
 /build

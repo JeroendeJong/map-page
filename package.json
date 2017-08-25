@@ -13,19 +13,22 @@
   "author": "Jeroen de Jong",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "comma-separated-values": "^3.6.4",
     "dateformat": "^2.0.0",
+    "express": "^4.15.4",
     "mapbox-gl": "^0.39.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "webshot": "^0.18.0"
   },
   "devDependencies": {
-    "react-scripts": "1.0.10",
     "eslint": "^4.5.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.3.0"
+    "eslint-plugin-react": "^7.3.0",
+    "react-scripts": "1.0.10"
   }
 }
