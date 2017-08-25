@@ -7,6 +7,8 @@ import PlaceName from '../place-name';
 import DateAndTime from '../date-time';
 import env from '../../environment';
 
+import MostVisited from '../most-visited/most-visited'
+
 import './App.css';
 
 function App(props) {
@@ -19,6 +21,7 @@ function App(props) {
         <div className="App">
             <BookmarkView testBookmarks={bookmarks} />
             <Settings map={props.map} />
+            <MostVisited map={props.map}/>
             <PlaceName map={props.map} />
             <DateAndTime map={props.map} />
         </div>

@@ -14,6 +14,7 @@ const defaultConfig = {
         new Style('mapbox://styles/mapbox/satellite-v9', false),
     ],
     userLocation: false,
+    serverURL: 'http://localhost:4000'
 };
 
 class Config extends EventEmitter {
@@ -55,13 +56,13 @@ class Config extends EventEmitter {
         this.putConfigToStorage();
     }
 
-    enableUserLocation() {
-        this.config.userLocation = true;
+    setUserLocation(newBool) {
+        this.config.userLocation = newBool;
         this.putConfigToStorage();
     }
 
-    disableUserLocation() {
-        this.config.userLocation = false;
+    setServerURL(newURL) {
+        this.config.serverURL = newURL;
         this.putConfigToStorage();
     }
 }

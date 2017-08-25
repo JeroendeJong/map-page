@@ -13,12 +13,17 @@ class Settings extends Component {
             settingsStyle: {
                 display: 'none',
             },
-            config: {},
+            config: {
+                userLocation: '',
+                serverURL: ''
+            },
         };
 
         this.handleButtonClick = this.handleButtonClick.bind(this);
         this.HandleButtonHoverOn = this.HandleButtonHoverOn.bind(this);
         this.HandleButtonHoverOff = this.HandleButtonHoverOff.bind(this);
+
+        this.handleServerURLChange = this.handleServerURLChange.bind(this);
         this.handleLocationChange = this.handleLocationChange.bind(this);
 
         this.getDefaultStateForInput = this.getDefaultStateForInput.bind(this);
@@ -26,10 +31,6 @@ class Settings extends Component {
 
     componentWillMount() {
         this.props.map.mapConfig.on('config retrieved', (config) => {
-            this.setState({ config });
-        });
-
-        this.props.map.mapConfig.on('config saved', (config) => {
             this.setState({ config });
         });
 
@@ -47,6 +48,7 @@ class Settings extends Component {
     }
 
     handleButtonClick() {
+        console.log(this.state);
         if (!this.state.showSettings) {
             this.setState({
                 showSettings: true,
@@ -87,11 +89,20 @@ class Settings extends Component {
     }
 
     handleLocationChange(evt) {
-        if (evt.target.checked) {
-            this.props.map.mapConfig.enableUserLocation();
-        } else {
-            this.props.map.mapConfig.disableUserLocation();
-        }
+        const newVal = evt.target.checked;
+        this.props.map.mapConfig.setUserLocation(newVal);
+        this.updateConfig({ userLocation: newVal });
+    }
+
+    handleServerURLChange(evt) {
+        const newVal = evt.target.value;
+        this.props.map.mapConfig.setServerURL(newVal);
+        this.updateConfig({ imageServerURL: newVal })
+    }
+
+    updateConfig(newKeyVal) {
+        const newObj = Object.assign(this.state.config,newKeyVal);
+        this.setState({ config: newObj });
     }
 
     renderButton() {
@@ -127,8 +138,17 @@ class Settings extends Component {
                         <input
                             name="userLocation"
                             type="checkbox"
-                            value={this.state.config.userLocation}
+                            checked={this.state.config.userLocation}
                             onChange={this.handleLocationChange}
+                        />
+                    </label>
+                    <label htmlFor="serverURL">
+                        Favorite Sites Image Server:
+                        <input
+                            name="serverURL"
+                            type="text"
+                            value={this.state.config.serverURL}
+                            onChange={this.handleServerURLChange}
                         />
                     </label>
                 </form>

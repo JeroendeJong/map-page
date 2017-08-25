@@ -35,10 +35,10 @@ class Favicon {
     }
 
     getFavicon(html) {
-        const manifestUrl = this.getManifestBasedIcons(html);
-        if (manifestUrl) {
-            return manifestUrl;
-        }
+        // const manifestUrl = this.getManifestBasedIcons(html);
+        // if (manifestUrl) {
+        //     return manifestUrl;
+        // }
 
         const appleUrl = this.getAppleIcons(html);
         if (appleUrl) {

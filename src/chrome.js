@@ -77,7 +77,12 @@ function getBookmarks() {
         }
 
         if (!getChromeInstance().bookmarks) {
-            reject('No Bookmarks Object! (check permission!)');
+
+            if (env.env === 'development' && env.bookmarks) {
+                resolve(env.bookmarks);
+            } else {
+                reject('No Bookmarks Object! (check permission!)');
+            }
         }
 
         getChromeInstance().bookmarks.getTree((bm) => {
@@ -100,7 +105,12 @@ function getTopSites() {
         }
 
         if (!getChromeInstance().topSites) {
-            reject('No topSites Object! (check permission!)');
+
+            if (env.env === 'development' && env.topSites) {
+                resolve(env.topSites);
+            } else {
+                reject('No topSites Object! (check permission!)');
+            }
         }
 
         getChromeInstance().topSites.get((ts) => {
